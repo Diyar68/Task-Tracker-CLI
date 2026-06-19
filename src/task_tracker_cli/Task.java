@@ -1,0 +1,95 @@
+package task_tracker_cli;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.lang.Thread;
+
+public class Task {
+	private int id;
+    private String description;
+    private TaskStatus status;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    private static final DateTimeFormatter FORMATTER =
+            DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+    public Task(int id, String description) {
+        this.id = id;
+        this.description = description;
+        this.status = TaskStatus.TODO;
+
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String newDescription) {
+        this.description = newDescription;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+    
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public String getCreatedAtFormatted() {
+        return createdAt.format(FORMATTER);
+    }
+
+    public String getUpdatedAtFormatted() {
+        return updatedAt.format(FORMATTER);
+    }
+
+    @Override
+    public String toString() {
+        return "Task " + id +
+                "\n------------------------" +
+                "\nDescription: " + description +
+                "\nStatus: " + status +
+                "\nCreated at: " + getCreatedAtFormatted() +
+                "\nUpdated at: " + getUpdatedAtFormatted() + "\n";
+    }
+    
+    // Equals und Hash Methode fehlen vllt? 
+    
+    public static void main(String[] args) {
+    	Task task2 = new Task(2, "zweite Aufgabe");
+
+    	System.out.println("Created: " + task2.getCreatedAt());
+    	System.out.println("Updated: " + task2.getUpdatedAt());
+
+    	try {
+			Thread.sleep(65000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+    	task2.setDescription("geänderte Aufgabe");
+
+    	System.out.println("Created: " + task2.getCreatedAt());
+    	System.out.println("Updated: " + task2.getUpdatedAt());
+    }
+}
