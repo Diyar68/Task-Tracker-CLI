@@ -12,40 +12,71 @@ public class TaskTracker {
 	public void addTask(String description) {
 		int id = generateNextId();
 
+		if (description == null || description.isBlank()) {
+			throw new IllegalArgumentException("Description cannot be emtpy");
+		}
+
 		Task task = new Task(id, description);
 
 		tasks.add(task);
 	}
 
 	public void deleteTask(int id) {
+
 		Task task = findById(id);
-		
-		if(task == null) {
+
+		if (task == null) {
 			System.out.print("Task not found");
 			return;
 		}
-		
+
 		tasks.remove(task);
 	}
 
 	public void updateTask(int id, String description) {
+		Task task = findById(id);
 
+		if (description == null || description.isBlank()) {
+			throw new IllegalArgumentException("Description cannot be emtpy");
+		}
+
+		if (task == null) {
+			System.out.println("Task not found");
+			return;
+		}
+
+		task.setDescription(description);
+	}
+
+	private void changeStatus(int id, TaskStatus status) {
+		Task task = findById(id);
+
+		if (task == null) {
+			System.out.println("Task not found");
+			return;
+		}
+
+		task.setStatus(status);
 	}
 
 	public void markInProgress(int id) {
-
+		changeStatus(id, TaskStatus.IN_PROGRESS);
 	}
 
 	public void markDone(int id) {
-
+		changeStatus(id, TaskStatus.DONE);
 	}
 
 	public ArrayList<Task> getAllTasks() {
-		return tasks;
+		return new ArrayList<>(tasks);
 	}
 
 	public void listByStatus(TaskStatus status) {
-
+		for (Task task : tasks) {
+			if (task.getStatus() == status) {
+				System.out.println(task);
+			}
+		}
 	}
 
 	private Task findById(int id) {
@@ -55,7 +86,7 @@ public class TaskTracker {
 				return task;
 			}
 		}
-		
+
 		return null;
 	}
 

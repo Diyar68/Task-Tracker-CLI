@@ -2,7 +2,6 @@ package task_tracker_cli;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.lang.Thread;
 
 public class Task {
 	private int id;
@@ -33,6 +32,9 @@ public class Task {
     }
 
     public void setDescription(String newDescription) {
+    	if(newDescription == null || newDescription.isBlank()) {
+    		throw new IllegalArgumentException("Description cannot be emtpy");
+    	}
         this.description = newDescription;
         this.updatedAt = LocalDateTime.now();
     }
@@ -42,6 +44,9 @@ public class Task {
     }
 
     public void setStatus(TaskStatus status) {
+    	if(status == null) {
+    		throw new IllegalArgumentException("Status cannot be null");
+    	}
         this.status = status;
         this.updatedAt = LocalDateTime.now();
     }
@@ -70,26 +75,5 @@ public class Task {
                 "\nStatus: " + status +
                 "\nCreated at: " + getCreatedAtFormatted() +
                 "\nUpdated at: " + getUpdatedAtFormatted() + "\n";
-    }
-    
-    // Equals und Hash Methode fehlen vllt? 
-    
-    public static void main(String[] args) {
-    	Task task2 = new Task(2, "zweite Aufgabe");
-
-    	System.out.println("Created: " + task2.getCreatedAt());
-    	System.out.println("Updated: " + task2.getUpdatedAt());
-
-    	try {
-			Thread.sleep(65000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-    	task2.setDescription("geänderte Aufgabe");
-
-    	System.out.println("Created: " + task2.getCreatedAt());
-    	System.out.println("Updated: " + task2.getUpdatedAt());
     }
 }
