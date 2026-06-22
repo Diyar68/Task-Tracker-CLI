@@ -40,9 +40,9 @@ To use the app:
    cd ..
    ```
 4. test it out: 
-  ```shell
+   ```shell
    java task_tracker_cli.TaskTrackerMain add "Test Task"
-  ```
+   ```
 
 ## Features
 
