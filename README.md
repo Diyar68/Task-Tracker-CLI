@@ -68,9 +68,9 @@ Alternatively see the GitHub documentation on [creating a pull request](https://
 
 Thanks to the following people who have contributed to this project:
 
-- [@Diyar68(https://github.com/Diyar68)]
+- [@Diyar68](https://github.com/Diyar68)
 
 ## Project source
 
-This is a project from [Roadmap](https://www.roadmap.sh). Click this [link](https://roadmap.sh/projects/task-tracker) to checkout the project
+This is a project from [Roadmap](https://roadmap.sh/dashboard). Click this [link](https://roadmap.sh/projects/task-tracker) to checkout the project
 [https://roadmap.sh/projects/task-tracker](https://roadmap.sh/projects/task-tracker)
