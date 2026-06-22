@@ -41,7 +41,7 @@ To use the app:
    ```
 4. test it out: 
   ```shell
-  java task_tracker_cli.TaskTrackerMain add "Test Task"
+   java task_tracker_cli.TaskTrackerMain add "Test Task"
   ```
 
 ## Features
