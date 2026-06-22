@@ -1,12 +1,15 @@
 package task_tracker_cli;
 
 public class TaskTrackerMain {
+
 	public static void main(String[] args) {
 
-		TaskTracker tracker = new TaskTracker();
+		TaskStorage storage = new TaskStorage();
+		storage.initializeFile();
+		TaskTracker tracker = new TaskTracker(storage.loadTasks());
 
-		if (args.length < 2) {
-			System.out.println("Missing arguments");
+		if (args.length == 0) {
+			printUsage();
 			return;
 		}
 
@@ -15,43 +18,48 @@ public class TaskTrackerMain {
 		switch (command) {
 
 		case "add":
-			String description = args[1];
-			tracker.addTask(description);
-			System.out.println("Task added successfully");
+			if (args.length < 2) {
+				System.out.println("Description missing");
+				return;
+			}
+
+			tracker.addTask(args[1]);
+			System.out.println("Task added");
 			break;
 
 		case "delete":
-			int id = Integer.parseInt(args[1]);
-			tracker.deleteTask(id);
-			System.out.println("Task deleted successfully");
+			if (args.length < 2) {
+				System.out.println("ID missing");
+				return;
+			}
+
+			tracker.deleteTask(Integer.parseInt(args[1]));
+			System.out.println("Task deleted");
 			break;
 
 		case "update":
-			int updateId = Integer.parseInt(args[1]);
-			String updateDescription = args[2];
-			tracker.updateTask(updateId, updateDescription);
+			if (args.length < 3) {
+				System.out.println("Usage: update <id> <description>");
+				return;
+			}
+
+			tracker.updateTask(Integer.parseInt(args[1]), args[2]);
 			break;
 
 		case "mark-in-progress":
-			int id1 = Integer.parseInt(args[1]);
-			tracker.markInProgress(id1);
+			tracker.markInProgress(Integer.parseInt(args[1]));
 			break;
 
 		case "mark-done":
-			int id2 = Integer.parseInt(args[1]);
-			tracker.markDone(id2);
+			tracker.markDone(Integer.parseInt(args[1]));
 			break;
 
 		case "list":
+
 			if (args.length == 1) {
-				for(Task task : tracker.getAllTasks()) {
-					System.out.println(task);
-				}
+				tracker.getAllTasks().forEach(System.out::println);
 			} else {
-				String status = args[1];
-
-				switch (status) {
-
+				switch (args[1]) {
 				case "done":
 					tracker.listByStatus(TaskStatus.DONE);
 					break;
@@ -63,8 +71,29 @@ public class TaskTrackerMain {
 				case "in-progress":
 					tracker.listByStatus(TaskStatus.IN_PROGRESS);
 					break;
+
+				default:
+					System.out.println("Unknown status");
 				}
 			}
+			break;
+
+		default:
+			System.out.println("Unknown command");
+			printUsage();
 		}
+		storage.saveTasks(tracker.getAllTasks());
+	}
+
+	private static void printUsage() {
+		System.out.println("""
+				    Commands:
+				    task-cli add "description"
+				    task-cli update <id> <description>
+				    task-cli delete <id>
+				    task-cli mark-in-progress <id>
+				    task-cli mark-done <id>
+				    task-cli list [done|todo|in-progress]
+				""");
 	}
 }

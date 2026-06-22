@@ -1,12 +1,17 @@
 package task_tracker_cli;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TaskTracker {
 	private ArrayList<Task> tasks = new ArrayList<>();
-
+	
+	public TaskTracker(List<Task> tasks) {
+	    this.tasks = new ArrayList<>(tasks);
+	}
+	
 	public TaskTracker() {
-
+	    this.tasks = new ArrayList<>();
 	}
 
 	public void addTask(String description) {
@@ -46,6 +51,10 @@ public class TaskTracker {
 		}
 
 		task.setDescription(description);
+	}
+	
+	public void setTasks(List<Task> tasks) {
+	    this.tasks = new ArrayList<>(tasks);
 	}
 
 	private void changeStatus(int id, TaskStatus status) {
